@@ -12,7 +12,8 @@ on:
 jobs:
   build-java:
 
-    runs-on: ${{ matrix.os }}
+#    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
@@ -30,6 +31,15 @@ jobs:
     - name: Build with Gradle
       run: ./gradlew build
 
+    - name: Check Environment
+      id: check-env
+      run: |
+        #echo ${{ steps.set-env.output.ENV_NAME }}  
+        echo ${{ github.event_name  }}  
+        echo ${{ github.event.pull_request.title  }}  
+        echo ${{ github.base_ref  }}  
+        echo ${{ github.ref_name  }}  
+
      #    - name: Build and Push Docker Image
      #      uses: mr-smithers-excellent/docker-build-push@v4
      #      with:
@@ -37,3 +47,5 @@ jobs:
      #        registry: docker.io
      #        username: ${{ secrets.DOCKER_USERNAME }}
      #        password: ${{ secrets.DOCKER_PASSWORD }}
+
+     
