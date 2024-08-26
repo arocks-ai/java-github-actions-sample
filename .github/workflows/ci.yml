@@ -4,21 +4,28 @@
 name: Java CI with Gradle
 
 on:
-  push:
+  push:                   #  run this workflow on push events
     branches: [ main ]
-  pull_request:
+  pull_request:           #  run this workflow on PR events
     branches: [ main ]
+  workflow_dispatch:      #  run this workflow manually from the Actions tab
 
 jobs:
   build-java:
 
-#    runs-on: ${{ matrix.os }}
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+
     steps:
     - uses: actions/checkout@v2
+
+    - name: Check Environment
+      id: check-env
+      run: |
+        echo ${{ github.event_name  }}    # push or pull_request
+        echo ${{ github.event.pull_request.title  }}    # PR title
+        echo ${{ github.base_ref  }}    # Target Branch name used for PR
+        echo ${{ github.ref_name  }}    # Branch name used for check-in
+        echo ${{ github.repository  }}    # Repository name
 
     - name: Set up JDK 1.8
       uses: actions/setup-java@v1
@@ -31,14 +38,7 @@ jobs:
     - name: Build with Gradle
       run: ./gradlew build
 
-    - name: Check Environment
-      id: check-env
-      run: |
-        #echo ${{ steps.set-env.output.ENV_NAME }}  
-        echo ${{ github.event_name  }}  
-        echo ${{ github.event.pull_request.title  }}  
-        echo ${{ github.base_ref  }}  
-        echo ${{ github.ref_name  }}  
+
 
      #    - name: Build and Push Docker Image
      #      uses: mr-smithers-excellent/docker-build-push@v4
