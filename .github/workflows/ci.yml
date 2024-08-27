@@ -22,8 +22,14 @@ on:
           - PROD
         default: 'DEV'
 
+  pull_request_target:  #  When PR closed merged or not
+    types:
+      - closed
+
+
+
 jobs:
-  build-java:
+  build-java:         #  Job name
 
     runs-on: ubuntu-latest
 
@@ -60,4 +66,16 @@ jobs:
      #        username: ${{ secrets.DOCKER_USERNAME }}
      #        password: ${{ secrets.DOCKER_PASSWORD }}
 
-     
+  merge_job:    # Job name
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+    - run: |
+        echo PR #${{ github.event.number }} has been merged
+
+  close_job:    # Job name        
+    if: github.event.pull_request.merged == false
+    runs-on: ubuntu-latest
+    steps:
+    - run: |
+        echo PR #${{ github.event.number }} has been closed without being merged
