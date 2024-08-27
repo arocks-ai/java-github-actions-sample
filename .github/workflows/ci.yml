@@ -66,14 +66,14 @@ jobs:
      #        password: ${{ secrets.DOCKER_PASSWORD }}
      #
 
-  merge_job:    # Job name
+  merge_job:    # when PR is merged
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
     - run: |
         echo PR #${{ github.event.number }} has been merged
 
-  close_job:    # Job name        
+  close_job:    # when PR is closed without being merged
     if: github.event.pull_request.merged == false
     runs-on: ubuntu-latest
     steps:
