@@ -30,7 +30,7 @@ on:
 
 jobs:
   build-java:         #  Job name
-
+    name: Build and Test Java Project
     runs-on: ubuntu-latest
 
     steps:
@@ -68,6 +68,7 @@ jobs:
 
   merge_job:    # when PR is merged
     if: github.event.pull_request.merged == true
+    needs: build-java         # Run this job after build-java job
     runs-on: ubuntu-latest
     steps:
     - run: |
@@ -75,6 +76,7 @@ jobs:
 
   close_job:    # when PR is closed without being merged
     if: github.event.pull_request.merged == false
+    needs: build-java         # Run this job after build-java job
     runs-on: ubuntu-latest
     steps:
     - run: |
