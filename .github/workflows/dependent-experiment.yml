@@ -1,5 +1,8 @@
-name: Experiment
-on: [workflow_dispatch]
+name: Need and exit Experiment
+run-name: Build and Test Java Project
+
+
+on: [workflow_dispatch]     #  run this workflow manually from the Actions tab
 
 jobs:
   job1:
@@ -13,19 +16,19 @@ jobs:
         sleep 10
 
   job2:
-    name: Job 2
-    needs: job1
+    name: Job 2 with a Failure
+    needs: job1           #  Job 2 runs only after Job1 is completed
     runs-on: ubuntu-latest
 
     steps:
     - name: Dependant is Running
       run: |
-        echo "Completed job 2, but triggering failure"
-        exit 1
+        echo "Completed job 2, but triggering failure"  
+        exit 1                                          #  Exit with error code
 
   job3:
-    name: Job 3
-    needs: job2
+    name: Job 3 
+    needs: job2       #  Job 3 runs only after Job2 is completed
     runs-on: ubuntu-latest
 
     steps:
