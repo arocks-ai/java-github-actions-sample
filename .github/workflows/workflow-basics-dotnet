@@ -2,7 +2,7 @@ name: GitHub Actions Demo
 on: workflow_dispatch
 jobs:
   Example-Actions-Job:
-    name: Exploring GitHub Actions
+    name: Exploring GitHub Actions basics and dotnet install
     runs-on: ubuntu-latest
     steps:
       # Display the event that triggered the workflow
