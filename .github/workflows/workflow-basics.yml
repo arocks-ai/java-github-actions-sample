@@ -1,4 +1,4 @@
-name: GitHub Actions Demo - Basics and Dotnet Install
+name: Show Basic commands 
 run-name: Show Basic commands     # displayed on Actions run 
 
 on: workflow_dispatch
@@ -17,9 +17,9 @@ jobs:
       - name: Info about repo and branch
         run: |
           echo "The name of your branch, github.ref = ${{ github.ref }}"         # fully-qualified brach/tag name, ex: refs/heads/main
-          echo "The name of your branch, github.ref = ${{ github.ref_name }}"    # Just branch/tag name, ex:heads/main
+          echo "The name of your branch, github.ref = ${{ github.ref_name }}"    # Just branch/tag name, ex: main
           echo "Repository github.repository =  ${{ github.repository }}"        # owner/rep name, ex: arocks-ai/java-github-actions-sample
-          echo "Repository github.server_url =  ${{ github.server_url }}"        # repo main URL, ex: github.com
+          echo "Repository github.server_url =  ${{ github.server_url }}"        # repo main URL, ex:  https://github.com
           
       
       # Use Action located in https://github.com/actions
