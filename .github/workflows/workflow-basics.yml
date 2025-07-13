@@ -20,10 +20,13 @@ jobs:
       # Information about the repository and branch
       - name: Info about repo and branch
         run: |
-          echo "The name of your branch, github.ref = ${{ github.ref }}"         # fully-qualified brach/tag name, ex: refs/heads/main, refs/pull/4/merge (for PR)
-          echo "The name of your branch, github.ref = ${{ github.ref_name }}"    # Just branch/tag name, ex: main, 4/merge (for PR)
-          echo "Repository github.repository =  ${{ github.repository }}"        # owner/rep name, ex: arocks-ai/java-github-actions-sample
-          echo "Repository github.server_url =  ${{ github.server_url }}"        # repo main URL, ex:  https://github.com
+          echo "The name of your branch, github.ref = ${{ github.ref }}"              # fully-qualified brach/tag name, ex: refs/heads/main, refs/pull/4/merge (for PR)
+          echo "The name of your branch, github.ref_name = ${{ github.ref_name }}"    # Just branch/tag name, ex: main, 4/merge (for PR)
+          echo "Repository github.repository =  ${{ github.repository }}"             # owner/rep name, ex: arocks-ai/java-github-actions-sample
+          echo "Repository github.server_url =  ${{ github.server_url }}"             # repo main URL, ex:  https://github.com
+          
+          echo "Source branch: ${{ github.head_ref }}"
+          echo "Target branch: ${{ github.base_ref }}"          
           
       
       # Use Action located in https://github.com/actions
