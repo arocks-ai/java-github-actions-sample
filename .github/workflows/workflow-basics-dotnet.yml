@@ -1,5 +1,5 @@
 name: GitHub Actions Demo - Basics and Dotnet Install
-run-name: Build and Test Java Project      # displayed on Actions run 
+run-name: Show Basic commands     # displayed on Actions run 
 
 on: workflow_dispatch
 jobs:
