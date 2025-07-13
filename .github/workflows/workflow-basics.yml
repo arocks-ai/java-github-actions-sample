@@ -1,7 +1,11 @@
 name: Show Basic commands 
 run-name: Show Basic commands     # displayed on Actions run 
 
-on: workflow_dispatch
+on: 
+  workflow_dispatch:      # Manual run
+  pull_request:           #  run this workflow on PR events
+    branches: [ main ]    # Target branch during PR
+  
 jobs:
   Example-Actions-Job:
     name: Exploring GitHub Actions basics and dotnet install
