@@ -1,0 +1,68 @@
+name: Show Basic commands 
+run-name: Show Basic commands     # displayed on Actions run 
+
+on: 
+  workflow_dispatch:      # Manual run
+  pull_request:           #  run this workflow on PR events
+    branches: [ main ]    # Target branch during PR
+  
+jobs:
+  Example-Actions-Job:
+    name: Exploring GitHub Actions basics and dotnet install
+    runs-on: ubuntu-latest
+    steps:
+      # Display the event that triggered the workflow
+      - run: echo "The job was triggered by a ${{ github.event_name }} event."   # event could be workflow_dispatch, push, pull_request, pull_request_target, release etc..
+      
+      # Runner information
+      - run: echo "This job is now running on a ${{ runner.os }} server hosted by GitHub"   # Linux, Windows, MacOS
+      
+      # Information about the repository and branch
+      - name: Info about repo and branch
+        run: |
+          echo "The name of your branch, github.ref = ${{ github.ref }}"         # fully-qualified brach/tag name, ex: refs/heads/main
+          echo "The name of your branch, github.ref = ${{ github.ref_name }}"    # Just branch/tag name, ex: main
+          echo "Repository github.repository =  ${{ github.repository }}"        # owner/rep name, ex: arocks-ai/java-github-actions-sample
+          echo "Repository github.server_url =  ${{ github.server_url }}"        # repo main URL, ex:  https://github.com
+          
+      
+      # Use Action located in https://github.com/actions
+      - name: Check out repository code
+        uses: actions/checkout@v2  
+      
+      - run: echo "The ${{ github.repository }} repository has been cloned to the runner."
+      
+      - run: echo "Your repository has been copied to the path ${{ github.workspace }} on the runner."
+      
+      - run: echo "The workflow is now ready to test your code on the runner."
+      
+      - name: conditional step when event name is pull request
+        if: ${{ github.event_name == 'pull_request' }}
+        run: echo "This event is a pull request"
+      
+      - name: List files in the repository
+        run: |
+          ls ${{ github.workspace }}
+      
+      - name: Setup dotnet on runner
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '3.x'
+      
+      - name: Display dotnet version
+        run: dotnet --version
+      
+      - run: echo "The preinstalled tools are located here on the runner ${{ runner.tool_cache }}."
+      
+      - name: List files in tool cache
+        run: |
+          ls ${{ runner.tool_cache }}
+      
+      - run: echo "This job's status is ${{ job.status }}."
+
+  Second-Job:
+    name: The second job running on another runner
+    runs-on: windows-latest             # Windows Runner
+    needs: Example-Actions-Job
+    steps:
+      - run: echo "This job is now running on a ${{ runner.os }} server hosted by GitHub."   # Windows

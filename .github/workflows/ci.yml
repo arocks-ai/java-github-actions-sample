@@ -5,8 +5,8 @@ name: Java CI with Gradle
 run-name: Build and Test Java Project
 
 on:
-  push:                   #  run this workflow on push events
-    branches: [ main ]
+  # push:                   #  run this workflow on push events
+  #  branches: [ main ]
   
   pull_request:           #  run this workflow on PR events
     branches: [ main ]
@@ -30,7 +30,7 @@ on:
 
 jobs:
   build-java:         #  Job name
-
+    name: Build and Test Java Project
     runs-on: ubuntu-latest
 
     steps:
@@ -66,15 +66,17 @@ jobs:
      #        password: ${{ secrets.DOCKER_PASSWORD }}
      #
 
-  merge_job:    # Job name
+  merge_job:    # when PR is merged
     if: github.event.pull_request.merged == true
+    needs: build-java         # Run this job after build-java job
     runs-on: ubuntu-latest
     steps:
     - run: |
         echo PR #${{ github.event.number }} has been merged
 
-  close_job:    # Job name        
+  close_job:    # when PR is closed without being merged
     if: github.event.pull_request.merged == false
+    needs: build-java         # Run this job after build-java job
     runs-on: ubuntu-latest
     steps:
     - run: |
