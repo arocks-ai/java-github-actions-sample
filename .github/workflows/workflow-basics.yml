@@ -20,11 +20,15 @@ jobs:
       # Information about the repository and branch
       - name: Info about repo and branch
         run: |
-          echo "The name of your branch, github.ref = ${{ github.ref }}"              # fully-qualified brach/tag name, ex: refs/heads/main, refs/pull/4/merge (for PR)
-          echo "The name of your branch, github.ref_name = ${{ github.ref_name }}"    # Just branch/tag name, ex: main, 4/merge (for PR)
           echo "Repository github.repository =  ${{ github.repository }}"             # owner/rep name, ex: arocks-ai/java-github-actions-sample
           echo "Repository github.server_url =  ${{ github.server_url }}"             # repo main URL, ex:  https://github.com
+
+          # ref is useful in or "push"
+          echo "The name of your branch, github.ref = ${{ github.ref }}"              # fully-qualified brach/tag name, ex: refs/heads/main, refs/pull/4/merge (for PR)
+          echo "The name of your branch, github.ref_name = ${{ github.ref_name }}"    # Just branch/tag name, ex: main, 4/merge (for PR)
           
+
+          # The following are useful incase of "pull_request" only. value are empty in case of push
           echo "Source branch: ${{ github.head_ref }}"
           echo "Target branch: ${{ github.base_ref }}"          
           
