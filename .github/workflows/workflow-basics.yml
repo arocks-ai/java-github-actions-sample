@@ -8,13 +8,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # Display the event that triggered the workflow
-      - run: echo "The job was triggered by a ${{ github.event_name }} event."
+      - run: echo "The job was triggered by a ${{ github.event_name }} event."   # event could be workflow_dispatch, push, pull_request, pull_request_target, release etc..
       
       # Runner information
-      - run: echo "This job is now running on a ${{ runner.os }} server hosted by GitHub"
+      - run: echo "This job is now running on a ${{ runner.os }} server hosted by GitHub"   # Linux, Windows, MacOS
       
       # Information about the repository and branch
-      - run: echo "The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+      - name: Info about repo and branch
+        run: |
+          echo "The name of your branch, github.ref = ${{ github.ref }}"         # fully-qualified brach/tag name, ex: refs/heads/main
+          echo "The name of your branch, github.ref = ${{ github.ref_name }}"    # Just branch/tag name, ex:heads/main
+          echo "Repository github.repository =  ${{ github.repository }}"        # owner/rep name, ex: arocks-ai/java-github-actions-sample
+          echo "Repository github.server_url =  ${{ github.server_url }}"        # repo main URL, ex: github.com
+          
       
       # Use Action located in https://github.com/actions
       - name: Check out repository code
