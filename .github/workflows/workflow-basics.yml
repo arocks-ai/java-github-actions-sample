@@ -4,7 +4,7 @@ run-name: Show Basic commands     # displayed on Actions run
 on: 
   workflow_dispatch:      # Manual run
   pull_request:           #  run this workflow on PR events
-    branches: [ main ]    # Target branch during PR
+    branches: [ main ]    # Target branch during PR...
   
 jobs:
   Example-Actions-Job:
