@@ -14,6 +14,6 @@ jobs:
     steps:
       # Input to the workflow
       - run: echo "Payload data is ${{ github.event.client_payload}}"
-      - run: echo "Payload field is ${{ github.event.client_payload.mydata}}"
+      - run: echo "Payload field is ${{ github.event.client_payload.name}}"
 
     
