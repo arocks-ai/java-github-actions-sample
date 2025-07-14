@@ -10,6 +10,9 @@ jobs:
   Example-Actions-Job:
     name: Exploring GitHub Actions basics and dotnet install
     runs-on: ubuntu-latest
+    env:
+      BRANCH_NAME: ${{ github.head_ref || github.ref_name }}    # Get branch name
+      
     steps:
       # Display the event that triggered the workflow
       - run: echo "The job was triggered by a ${{ github.event_name }} event."   # event could be workflow_dispatch, push, pull_request, pull_request_target, release etc..
@@ -29,8 +32,9 @@ jobs:
           
 
           # The following are useful incase of "pull_request" only. value are empty in case of push
-          echo "Source branch: ${{ github.head_ref }}"
-          echo "Target branch: ${{ github.base_ref }}"          
+          echo "Source branch: ${{ github.head_ref }}"    # ex: features/update1 (PR) or empty (Push)
+          echo "Target branch: ${{ github.base_ref }}"    # ex: main (PR) or empty (Push)
+          echo "Source Branch Name = $BRANCH_NAME"        # handles both PR and PUSH
           
       
       # Use Action located in https://github.com/actions
