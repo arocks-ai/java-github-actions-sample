@@ -1,0 +1,19 @@
+name: Show Basic commands 
+run-name: Show Basic commands     # displayed on Actions run 
+
+on: 
+  repository_dispatch:           # External Client Trigger
+    type: [ run_my_workflow ]    # Input Type should be run_my_workflow
+  
+jobs:
+  Example-Actions-Job:
+    name: Exploring GitHub Actions - External Client invoke
+    runs-on: ubuntu-latest
+
+      
+    steps:
+      # Input to the workflow
+      - run: echo "Payload data is ${{ github.event.client_payload}}"
+      - run: echo "Payload field is ${{ github.event.client_payload.mydata}}"
+
+    
