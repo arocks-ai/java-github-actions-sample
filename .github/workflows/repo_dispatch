@@ -1,0 +1,15 @@
+name: Triggered by Repository Dispatch
+
+on:
+  repository_dispatch:
+    types: [custom-trigger]
+
+jobs:
+  run-on-dispatch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Show custom payload
+        run: |
+          echo "🚀 Event type: ${{ github.event.action }}"
+          echo "👤 Triggered by: ${{ github.actor }}"
+          echo "🔧 Custom input: ${{ github.event.client_payload.input }}"
