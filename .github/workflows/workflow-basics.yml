@@ -11,7 +11,7 @@ jobs:
     name: Exploring GitHub Actions basics and dotnet install
     runs-on: ubuntu-latest
     env:
-      BRANCH_NAME: ${{ github.head_ref || github.ref_name }}    # Get branch name
+      BRANCH_NAME: ${{ github.base_ref || github.ref_name }}    # Get branch name, works for both Push and PR 
       
     steps:
       # Display the event that triggered the workflow
@@ -36,6 +36,17 @@ jobs:
           echo "Target branch: ${{ github.base_ref }}"    # ex: main (PR) or empty (Push)
           echo "Source Branch Name = $BRANCH_NAME"        # handles both PR and PUSH
           
+
+      # Sample if/else condition inside 
+      - name: Conditional logic to check main/master, qa or other branch
+        run: |
+          if [ "$BRANCH_NAME" = "main" ] || [ "$BRANCH_NAME" = "master" ]; then
+            echo "Running on main or master branch"
+          elif [ "$BRANCH_NAME" = "qa" ]
+            echo "Running on a qa branch"
+          else
+            echo "Running on a feature or other branch: $BRANCH_NAME"
+          fi
       
       # Use Action located in https://github.com/actions
       - name: Check out repository code
