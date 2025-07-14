@@ -1,9 +1,10 @@
-name: Invoke by external Client
-run-name: Invoke by external Client
+name: Invoked by external Client
+run-name: Invoked by external Client
 
 on: 
-  repository_dispatch:           # External Client Trigger
-    type: [ run_my_workflow ]    # Input Type should be run_my_workflow
+ workflow_dispatch:
+ #repository_dispatch:           # External Client Trigger
+   # type: [ run_my_workflow ]    # Input Type should be run_my_workflow
   
 jobs:
   Example-Actions-Job:
