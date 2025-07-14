@@ -42,7 +42,7 @@ jobs:
         run: |
           if [ "$BRANCH_NAME" = "main" ] || [ "$BRANCH_NAME" = "master" ]; then
             echo "Running on main or master branch"
-          elif [ "$BRANCH_NAME" = "qa" ]
+          elif [ "$BRANCH_NAME" = "qa" ]; then
             echo "Running on a qa branch"
           else
             echo "Running on a feature or other branch: $BRANCH_NAME"
