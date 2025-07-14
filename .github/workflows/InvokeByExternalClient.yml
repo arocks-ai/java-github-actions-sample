@@ -1,5 +1,5 @@
-name: Show Basic commands 
-run-name: Show Basic commands     # displayed on Actions run 
+name: Invoke by external Client
+run-name: Invoke by external Client
 
 on: 
   repository_dispatch:           # External Client Trigger
