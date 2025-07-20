@@ -36,8 +36,11 @@ jobs:
           ENVIRONMENT="${{ matrix.env }}"
           echo "ENVIRONMENT = $ENVIRONMENT"
           echo "INPUTS = $INPUTS"
-          ls -al ./.github/scripts/          
-          ./.github/scripts/set-target-env-variables.sh "$ENVIRONMENT" "$INPUTS"
+          echo "== list files under ${{ github.workspace }}/.github/scripts/
+          ls -al ${{ github.workspace }}/.github/scripts/
+
+          echo == running ${{ github.workspace }}/.github/scripts/set-target-env-variables.sh "$ENVIRONMENT" "$INPUTS"
+          ${{ github.workspace }}/.github/scripts/set-target-env-variables.sh "$ENVIRONMENT" "$INPUTS"
           shell: bash
       
       - name: Print firstrun value
