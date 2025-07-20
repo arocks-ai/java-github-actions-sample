@@ -29,7 +29,7 @@ jobs:
       matrix: ${{ fromJson(needs.build.outputs.matrix) }}
     name: Deploy to ${{ matrix.env }}
     steps:
-      - name: Checkout repository
+      - name: Checkout repository                   # path is needed otherwise extra repo directory will be created inside runner
         uses: actions/checkout@v3
         with:
           path: .
@@ -51,7 +51,7 @@ jobs:
 
           echo == 'running .github/scripts/set-target-env-variables.sh "$ENVIRONMENT" "$INPUTS"'
           .github/scripts/set-target-env-variables.sh "$ENVIRONMENT" "$INPUTS"
-        shell: bash
+        shell: bash            # this line should not be inside run
       
       - name: Print firstrun value
         run: echo "firstrun is ${{ steps.set_firstrun.outputs.firstrun }}"
