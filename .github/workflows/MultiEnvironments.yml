@@ -29,6 +29,11 @@ jobs:
       matrix: ${{ fromJson(needs.build.outputs.matrix) }}
     name: Deploy to ${{ matrix.env }}
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          path: .
+
       - name: Set firstrun based on environment position
         id: set_firstrun
         run: |
@@ -36,11 +41,11 @@ jobs:
           ENVIRONMENT="${{ matrix.env }}"
           echo "ENVIRONMENT = $ENVIRONMENT"
           echo "INPUTS = $INPUTS"
-          echo "== list files under ${{ github.workspace }}/.github/scripts/"
-          ls -al ${{ github.workspace }}/.github/scripts/
+          echo "== list files under .github/scripts/"
+          ls -al .github/scripts/
 
-          echo == 'running ${{ github.workspace }}/.github/scripts/set-target-env-variables.sh "$ENVIRONMENT" "$INPUTS"'
-          ${{ github.workspace }}/.github/scripts/set-target-env-variables.sh "$ENVIRONMENT" "$INPUTS"
+          echo == 'running .github/scripts/set-target-env-variables.sh "$ENVIRONMENT" "$INPUTS"'
+          .github/scripts/set-target-env-variables.sh "$ENVIRONMENT" "$INPUTS"
           shell: bash
       
       - name: Print firstrun value
