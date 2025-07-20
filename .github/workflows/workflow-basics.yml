@@ -64,7 +64,7 @@ jobs:
       
       - name: List files in the repository
         run: |
-          ls -lrt ${{ github.workspace }}
+          ls -aR ${{ github.workspace }}
       
       - name: Setup dotnet on runner
         uses: actions/setup-dotnet@v1
