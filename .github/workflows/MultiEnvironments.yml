@@ -37,7 +37,7 @@ jobs:
           echo "ENVIRONMENT = $ENVIRONMENT"
           echo "INPUTS = $INPUTS"
           .github/scripts/set-target-env-variables.sh "$ENVIRONMENT" "$INPUTS"
-        shell: bash
+          shell: bash
       
       - name: Print firstrun value
         run: echo "firstrun is ${{ steps.set_firstrun.outputs.firstrun }}"
