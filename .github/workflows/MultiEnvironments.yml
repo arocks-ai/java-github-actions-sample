@@ -44,6 +44,11 @@ jobs:
           echo "== list files under .github/scripts/"
           ls -al .github/scripts/
 
+          echo "== list files under .github/scripts/set-target-env-variables.sh"
+          ls -al .github/scripts/set-target-env-variables.sh
+
+          chmod 755 .github/scripts/set-target-env-variables.sh
+
           echo == 'running .github/scripts/set-target-env-variables.sh "$ENVIRONMENT" "$INPUTS"'
           .github/scripts/set-target-env-variables.sh "$ENVIRONMENT" "$INPUTS"
           shell: bash
