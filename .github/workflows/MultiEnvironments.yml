@@ -34,6 +34,8 @@ jobs:
         run: |
           INPUTS="${{ github.event.inputs.environments }}"
           ENVIRONMENT="${{ matrix.env }}"
+          echo "ENVIRONMENT = $ENVIRONMENT"
+          echo "INPUTS = $INPUTS"
           .github/scripts/set-target-env-variables.sh "$ENVIRONMENT" "$INPUTS"
         shell: bash
       
