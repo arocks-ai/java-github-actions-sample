@@ -64,7 +64,13 @@ jobs:
       
       - name: List files in the repository
         run: |
+          echo == List files under ${{ github.workspace }}
           ls ${{ github.workspace }}    # list files in repo
+
+          echo == List files under ${{ github.workspace }}/.github/scripts/
+          ls -al ${{ github.workspace }}/.github/scripts/ # list files in .github/scripts/ directory 
+
+          echo == List files under /.github/scripts/
           ls -al .github/scripts/       # list files in .github/scripts/ directory 
 
       
