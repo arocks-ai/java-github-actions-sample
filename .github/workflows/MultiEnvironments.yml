@@ -29,20 +29,13 @@ jobs:
       matrix: ${{ fromJson(needs.build.outputs.matrix) }}
     name: Deploy to ${{ matrix.env }}
     steps:
-      - name: Set variable1 based on environment position
-        id: set_variable
+      - name: Set firstrun based on environment position
+        id: set_firstrun
         run: |
-          # hardcode same order as input if needed
           INPUTS="${{ github.event.inputs.environments }}"
-          INDEX=$(echo "$INPUTS" | tr ',' '\n' | awk "/${{ matrix.env }}/ {print NR}")
-          if [[ $INDEX -eq 1 ]]; then
-            echo "variable1=false"
-            echo "::set-output name=flag::false"
-          else
-            echo "variable1=true"
-            echo "::set-output name=flag::true"
-          fi
+          ENVIRONMENT="${{ matrix.env }}"
+          .github/scripts/set-target-env-variables.sh "$ENVIRONMENT" "$INPUTS"
         shell: bash
-
-      - name: Deploy logic using variable1
-        run: echo "Deploying to ${{ matrix.env }} with variable1=${{ steps.set_variable.outputs.flag }}"
+      
+      - name: Print firstrun value
+        run: echo "firstrun is ${{ steps.set_firstrun.outputs.firstrun }}"
