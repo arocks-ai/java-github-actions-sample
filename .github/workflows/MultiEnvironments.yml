@@ -26,6 +26,7 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     strategy:
+      max-parallel: 1              # run one job only at any time 
       matrix: ${{ fromJson(needs.build.outputs.matrix) }}
     name: Deploy to ${{ matrix.env }}
     steps:
