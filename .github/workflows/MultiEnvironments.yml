@@ -17,9 +17,12 @@ jobs:
       - name: Convert input to JSON array
         id: set-matrix
         run: |
-          INPUTS="${{ github.event.inputs.environments }}"
-          ENV_LIST=$(echo "$INPUTS" | awk -F',' '{for(i=1;i<=NF;i++) printf "\"%s\"%s", $i, (i<NF?",":"") }')
-          echo "::set-output name=matrix::{\"env\":[$ENV_LIST]}"
+          target_envs="${{ github.event.inputs.environments }}"
+          target_envs="${target_envs// /}"  # Remove spaces
+          ENV_LIST=$(echo "$target_envs" | awk -F',' '{for(i=1;i<=NF;i++) printf "\"%s\"%s", $i, (i<NF?",":"") }')
+          #echo "::set-output name=matrix::{\"env\":[$ENV_LIST]}"
+          echo "env_json={\"env\":[$ENV_LIST]}" >> $GITHUB_OUTPUT
+          echo "target_envs=$target_envs" >> $GITHUB_OUTPUT
         shell: bash
 
   deploy:
@@ -27,7 +30,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 1              # run one job only at any time 
-      matrix: ${{ fromJson(needs.build.outputs.matrix) }}
+      matrix: ${{ fromJson(needs.build.outputs.env_json) }}
     name: Deploy to ${{ matrix.env }}
     steps:
       - name: Checkout repository                   # path is needed otherwise extra repo directory will be created inside runner
@@ -38,10 +41,11 @@ jobs:
       - name: Set firstrun based on environment position
         id: set_firstrun
         run: |
-          INPUTS="${{ github.event.inputs.environments }}"
+          #target_envs="${{ github.event.inputs.environments }}"
+          target_envs="${{ needs.build.outputs.target_envs }}"
           ENVIRONMENT="${{ matrix.env }}"
-          echo "ENVIRONMENT = $ENVIRONMENT"
-          echo "INPUTS = $INPUTS"
+          echo "aak - ENVIRONMENT = $ENVIRONMENT"
+          echo "aak - target_envs = $target_envs"
           echo "== list files under .github/scripts/"
           ls -al .github/scripts/
 
@@ -50,8 +54,8 @@ jobs:
 
           chmod 755 .github/scripts/set-target-env-variables.sh
 
-          echo == 'running .github/scripts/set-target-env-variables.sh "$ENVIRONMENT" "$INPUTS"'
-          .github/scripts/set-target-env-variables.sh "$ENVIRONMENT" "$INPUTS"
+          echo == 'running .github/scripts/set-target-env-variables.sh "$ENVIRONMENT" "$target_envs"'
+          .github/scripts/set-target-env-variables.sh "$ENVIRONMENT" "$target_envs"
         shell: bash            # this line should not be inside run
       
       - name: Print firstrun value
