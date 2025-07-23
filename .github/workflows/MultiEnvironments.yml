@@ -17,11 +17,11 @@ jobs:
       - name: Convert input to JSON array
         id: set-matrix
         run: |
-          target_envs="${{ github.event.inputs.environments }}"
-          target_envs="${target_envs// /}"  # Remove spaces
+          target_env_input="${{ github.event.inputs.environments }}"
+          target_envs="${target_env_input// /}"  # Remove spaces
           ENV_LIST=$(echo "$target_envs" | awk -F',' '{for(i=1;i<=NF;i++) printf "\"%s\"%s", $i, (i<NF?",":"") }')
-          #echo "::set-output name=matrix::{\"env\":[$ENV_LIST]}"
-          echo "matrix={\"env\":[$ENV_LIST]}" >> $GITHUB_OUTPUT
+          echo "matrix={\"env\":[$ENV_LIST]}" >> $GITHUB_OUTPUT   # Only matrix name works for strategy
+          echo "aak - target_envs=$target_envs"
           echo "target_envs=$target_envs" >> $GITHUB_OUTPUT
         shell: bash
 
