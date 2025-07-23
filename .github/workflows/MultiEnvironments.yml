@@ -21,7 +21,7 @@ jobs:
           target_envs="${target_envs// /}"  # Remove spaces
           ENV_LIST=$(echo "$target_envs" | awk -F',' '{for(i=1;i<=NF;i++) printf "\"%s\"%s", $i, (i<NF?",":"") }')
           #echo "::set-output name=matrix::{\"env\":[$ENV_LIST]}"
-          echo "env_json={\"env\":[$ENV_LIST]}" >> $GITHUB_OUTPUT
+          echo "matrix={\"env\":[$ENV_LIST]}" >> $GITHUB_OUTPUT
           echo "target_envs=$target_envs" >> $GITHUB_OUTPUT
         shell: bash
 
@@ -30,7 +30,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 1              # run one job only at any time 
-      matrix: ${{ fromJson(needs.build.outputs.env_json) }}
+      matrix: ${{ fromJson(needs.build.outputs.matrix) }}
     name: Deploy to ${{ matrix.env }}
     steps:
       - name: Checkout repository                   # path is needed otherwise extra repo directory will be created inside runner
