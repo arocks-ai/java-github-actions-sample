@@ -47,7 +47,7 @@ jobs:
           echo "Is first run completed: ${is_first_run_completed}"
 
       - name: Update is_first_run_completed
-        if: ${{ env.is_first_run_completed == 'false' }}
+        if: ${{ env.is_first_run_completed == false }}
         run: |
             echo "is_first_run_completed=true" >> $GITHUB_ENV
 
