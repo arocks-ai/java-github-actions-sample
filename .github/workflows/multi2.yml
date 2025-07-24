@@ -21,6 +21,11 @@ jobs:
           #echo "env_list=$(echo "$target_envs" | awk -F',' '{for(i=1;i<=NF;i++) printf "\"%s\"%s", $i, (i<NF?",":"") }')"  >> $GITHUB_OUTPUT
           echo "env_list=$(echo "$CLEANED" | awk -F',' '{printf "["; for(i=1;i<=NF;i++) printf "\"%s\"%s", $i, (i<NF?",":"") ; print "]"}')" >> $GITHUB_OUTPUT
 
+          target_env_input="${{ github.event.inputs.environments }}"
+          target_envs="${target_env_input// /}"  # Remove spaces
+          env_list=$(echo "$target_envs" | awk -F',' '{for(i=1;i<=NF;i++) printf "\"%s\"%s", $i, (i<NF?",":"") }')
+          echo "env_list={\"env\":[${env_list}]}" >> $GITHUB_OUTPUT          
+
   deploy:
     needs: setup
     runs-on: ubuntu-latest
