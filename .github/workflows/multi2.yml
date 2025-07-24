@@ -1,0 +1,34 @@
+name: Multi-Environment Deployment
+
+on:
+  workflow_dispatch:
+    inputs:
+      environments:
+        description: 'Comma-separated list of environments (e.g., dev,npe,prod)'
+        required: true
+        default: 'dev'
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      config: ${{ steps.prepare.outputs.config }}
+    steps:
+      - name: Prepare setup logic
+        id: prepare
+        run: |
+          echo "config=initialized" >> $GITHUB_OUTPUT
+
+  deploy:
+    needs: setup
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        env: [dev, prod, qa]
+        #target_env_json: ${{ fromJson('["' + inputs.environments.replace(',', '","') + '"]') }}        
+      max-parallel: 1
+    name: Deploy to ${{ matrix.env }}
+    steps:
+      - name: Use setup output
+        run: |
+          echo "Setup config: ${{ needs.setup.outputs.config }}"
