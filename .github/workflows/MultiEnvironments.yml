@@ -44,7 +44,7 @@ jobs:
       - name: Check first run
         run: |
           echo "Is first run completed: ${{ env.is_first_run_completed }}"
-          echo "Is first run completed: ${env.is_first_run_completed}"
+          echo "Is first run completed: ${is_first_run_completed}"
 
       - name: Update is_first_run_completed
         if: ${{ env.is_first_run_completed == 'false' }}
