@@ -1,4 +1,4 @@
-name: Multi-Environment Deployment
+name: Multi2
 
 on:
   workflow_dispatch:
@@ -12,23 +12,27 @@ jobs:
   setup:
     runs-on: ubuntu-latest
     outputs:
-      config: ${{ steps.prepare.outputs.config }}
+      env_list: ${{ steps.prepare.outputs.env_list }}
     steps:
-      - name: Prepare setup logic
+      - name: Prepare environment list
         id: prepare
         run: |
-          echo "config=initialized" >> $GITHUB_OUTPUT
+          echo "env_list=$(echo '${{ inputs.environments }}' | sed 's/, */,/g' | jq -R -s 'split(",")')" >> $GITHUB_OUTPUT
 
   deploy:
     needs: setup
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        #env: [dev, prod, qa]
-        env: ${{ fromJson('["' + inputs.environments.replace(',', '","') + '"]') }}        
+        env: ${{ fromJson(needs.setup.outputs.env_list) }}
       max-parallel: 1
     name: Deploy to ${{ matrix.env }}
     steps:
+      - name: Check first run
+        run: |
+          echo "Is first run: ${{ env.is_first_run }}"
+
       - name: Use setup output
         run: |
-          echo "Setup config: ${{ needs.setup.outputs.config }}"
+          echo "Deploying to environment: ${{ matrix.env }}"
+          echo "is_first_run=true" >> $GITHUB_ENV
