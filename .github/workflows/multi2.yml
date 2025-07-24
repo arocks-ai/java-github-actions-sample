@@ -24,8 +24,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        env: [dev, prod, qa]
-        #target_env_json: ${{ fromJson('["' + inputs.environments.replace(',', '","') + '"]') }}        
+        #env: [dev, prod, qa]
+        env: ${{ fromJson('["' + inputs.environments.replace(',', '","') + '"]') }}        
       max-parallel: 1
     name: Deploy to ${{ matrix.env }}
     steps:
