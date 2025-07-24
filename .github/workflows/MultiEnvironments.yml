@@ -33,7 +33,7 @@ jobs:
       max-parallel: 1              # run one job only at any time 
       matrix: ${{ fromJson(needs.build.outputs.matrix) }}
     env:
-        is_first_run_completed: false      
+        is_first_run_completed: "false"
     name: Deploy to ${{ matrix.env }}
     steps:
       - name: Checkout repository                   # path is needed otherwise extra repo directory will be created inside runner
@@ -45,9 +45,11 @@ jobs:
         run: |
           echo "Is first run completed: ${{ env.is_first_run_completed }}"
           echo "Is first run completed: ${is_first_run_completed}"
+          is_first_run_completed=true
+          env.is_first_run_completed =true
 
       - name: Update is_first_run_completed
-        if: ${{ env.is_first_run_completed == false }}
+        if: ${{ env.is_first_run_completed == 'false' }}
         run: |
             echo "is_first_run_completed=true" >> $GITHUB_ENV
 
