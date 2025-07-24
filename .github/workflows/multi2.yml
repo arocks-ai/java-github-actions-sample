@@ -6,7 +6,7 @@ on:
       environments:
         description: 'Comma-separated list of environments (e.g., dev,npe,prod)'
         required: true
-        default: 'dev'
+        default: 'dev,npe'
 
 jobs:
   setup:
@@ -18,7 +18,7 @@ jobs:
         id: prepare
         run: |
           #echo "env_list=$(echo '${{ inputs.environments }}' | sed 's/, */,/g' | jq -R -s 'split(",")')" >> $GITHUB_OUTPUT
-          echo "env_list=$(echo "$target_envs" | awk -F',' '{for(i=1;i<=NF;i++) printf "\"%s\"%s", $i, (i<NF?",":"") }')"
+          echo "env_list=$(echo "$target_envs" | awk -F',' '{for(i=1;i<=NF;i++) printf "\"%s\"%s", $i, (i<NF?",":"") }')"  >> $GITHUB_OUTPUT
 
   deploy:
     needs: setup
