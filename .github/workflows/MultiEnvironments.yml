@@ -24,7 +24,6 @@ jobs:
           echo "matrix={\"env\":[$ENV_LIST]}" >> $GITHUB_OUTPUT   # Only matrix name works for strategy
           
           echo "target_envs=${target_envs}" >> $GITHUB_OUTPUT
-          echo "target_envs2=$target_envs" >> $GITHUB_OUTPUT
         shell: bash
 
   deploy:
@@ -43,20 +42,13 @@ jobs:
       - name: Set firstrun based on environment position
         id: set_firstrun
         run: |
-          #target_envs="${{ github.event.inputs.environments }}"
           target_envs="${{ needs.build.outputs.target_envs }}"
-          target_envs2="${{ needs.build.outputs.target_envs2 }}"
 
           # Removed invalid target_envs2 reference
-          echo "aak - ENVIRONMENT = $ENVIRONMENT"
+          echo "aak - ENVIRONMENT = ${{ matrix.env }}"
           echo "aak - target_envs = $target_envs"
-          echo "aak - target_envs2 = $target_envs2"          
-          echo "== list files under .github/scripts/"
-          ls -al .github/scripts/
 
-          echo "== list files under .github/scripts/set-target-env-variables.sh"
           ls -al .github/scripts/set-target-env-variables.sh
-
           chmod 755 .github/scripts/set-target-env-variables.sh
 
           echo == 'running .github/scripts/set-target-env-variables.sh "$ENVIRONMENT" "$target_envs"'
